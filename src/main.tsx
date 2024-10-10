@@ -8,9 +8,9 @@ const queryClient = new QueryClient();
 
 // biome-ignore lint/style/noNonNullAssertion: root exists in index.html
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<App />
-		</QueryClientProvider>
-	</React.StrictMode>,
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>
 );
