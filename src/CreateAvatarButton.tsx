@@ -1,6 +1,6 @@
 import { Address } from "@planetarium/account";
 import { useMemo, useState } from "react";
-import { useStageTransactionMutation } from "../graphql/generated/graphql";
+import { useStageTransactionMutation } from "../graphql-headless/generated/graphql";
 import { getChronoSdk } from "@planetarium/chrono-sdk";
 import { CreateAvatar } from "@planetarium/lib9c";
 
