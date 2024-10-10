@@ -225,4 +225,5 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/react,macos,linux,windows,jetbrains,visualstudiocode
 
-/graphql/generated
+/graphql-headless/generated/
+/graphql-mimir/generated/
