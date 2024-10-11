@@ -3,7 +3,7 @@ import { RefillButton } from "./RefillButton";
 import {
   useGetAvatarsQuery,
   useGetTipQuery,
-} from "../graphql/generated/graphql";
+} from "../graphql-headless/generated/graphql";
 import { CreateAvatarButton } from "./CreateAvatarButton";
 
 interface AgentProps {
