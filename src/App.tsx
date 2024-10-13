@@ -8,6 +8,15 @@ import {
   useNetwork,
 } from "@planetarium/chrono-sdk/hooks";
 
+interface WrappedNetwork {
+  id: string;
+  name: string;
+  genesisHash: string;
+  gqlEndpoint: string;
+  isMainnet: boolean;
+  explorerEndpoint: string;
+}
+
 function App() {
   const [currentAccount, setCurrentAccount] = useState<number>(0);
   const [txId, setTxId] = useState<string | null>(null);
@@ -87,7 +96,7 @@ function App() {
     cache: new InMemoryCache(),
   });
 
-  const explorerEndpoint = (network as any).explorerEndpoint; // @ts-ignore
+  const explorerEndpoint = (network as WrappedNetwork).explorerEndpoint;
 
   return (
     <ApolloProvider client={client}>
