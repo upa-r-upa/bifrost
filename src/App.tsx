@@ -1,7 +1,11 @@
-import ConnectChronoButton from "./ConnectChronoButton";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  return <ConnectChronoButton />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }
 
 export default App;

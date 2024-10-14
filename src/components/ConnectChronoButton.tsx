@@ -1,6 +1,6 @@
 import { getChronoSdk } from "@planetarium/chrono-sdk";
 import { useAccounts, useConnect } from "@planetarium/chrono-sdk/hooks";
-import { useAccountStore } from "./store/account";
+import { useAccountStore } from "../store/account";
 
 function ConnectChronoButton() {
   const {
