@@ -1,9 +1,9 @@
-import ConnectChronoButton from "@/components/ConnectChronoButton";
+import ConnectChrono from "@/components/ConnectChrono";
 
 export default function MainPage() {
   return (
     <>
-      <ConnectChronoButton />
+      <ConnectChrono />
     </>
   );
 }
