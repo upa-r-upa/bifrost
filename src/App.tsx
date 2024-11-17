@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 
+import pixelArt from "@/assets/pixel-art.png";
+
 function App() {
   return (
     <div className="relative w-full bg-background h-screen pt-5">
@@ -15,7 +17,7 @@ function App() {
               </div>
 
               <div className="text-lg font-sans text-foreground flex">
-                <img className="w-8 mr-2" src="assets/pxArt.png" />
+                <img className="w-8 mr-2" src={pixelArt} />
                 <span>Bifrost</span>
               </div>
               <div></div>
