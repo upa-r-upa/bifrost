@@ -16,6 +16,7 @@ import { ChronoDownloadLink } from "@/constants/chrono";
 import { Planet } from "@/constants/planet";
 import { HEIMDALL_GENESIS_HASH, ODIN_GENESIS_HASH } from "@planetarium/lib9c";
 import { Buffer } from "buffer";
+import TerminalContainer from "@/components/TerminalContainer";
 
 function ConnectChrono() {
   const { status: chronoStatus, updateStatus } = useStatusStore();
@@ -103,27 +104,30 @@ function ConnectChrono() {
       case ChronoStatus.NOT_INSTALLED:
         return (
           <a
+            className="underline"
             href={ChronoDownloadLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white"
           >
-            Install Chrono
+            &gt;&gt;&gt; Install Chrono
           </a>
         );
 
       case ChronoStatus.LOADING:
         return (
-          <button className="text-white" disabled>
-            Loading... (If you are installing Chrono for the first time, please
-            create an account.)
-          </button>
+          <>
+            <p>Loading...</p>
+            <p>
+              * If you are installing Chrono for the first time, please create
+              an account.
+            </p>
+          </>
         );
 
       case ChronoStatus.NOT_CONNECTED:
         return (
           <button
-            className="bg-white p-4 font-bold"
+            className="p-4 font-bold"
             onClick={() => connectAsync()}
             disabled={isPending}
           >
@@ -134,6 +138,7 @@ function ConnectChrono() {
       case ChronoStatus.CONNECTED:
         return (
           <select
+            className="bg-white text-black"
             value={currentAccount ? currentAccount.toString() : ""}
             onChange={(e) => {
               updateCurrentAccount(chronoAccounts[Number(e.target.value)]);
@@ -152,7 +157,11 @@ function ConnectChrono() {
     }
   };
 
-  return <div>{renderContent()}</div>;
+  return (
+    <TerminalContainer title="Connect Chrono">
+      {renderContent()}
+    </TerminalContainer>
+  );
 }
 
 export default ConnectChrono;

@@ -6,9 +6,10 @@ import {
 
 import Root from "./App";
 
-import { ErrorPage, RequireAuth } from "@/pages";
+import RequireAuth from "@/components/RequireAuth";
 import ROUTES from "@/constants/routes";
-import MainPage from "./pages/MainPage";
+
+import { ErrorPage, MainPage } from "@/pages";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
