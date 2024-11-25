@@ -1,3 +1,12 @@
+query GetAvatarAddresses($address: Address!) {
+  agent(address: $address) {
+    avatarAddresses {
+      key
+      value
+    }
+  }
+}
+
 query GetAvatarInformation($avatarAddress: Address!) {
   avatar(address: $avatarAddress) {
     address

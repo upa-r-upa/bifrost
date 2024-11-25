@@ -1,8 +1,8 @@
 overwrite: true
-schema: https://odin-rpc-1.nine-chronicles.com/graphql
-documents: ./graphql-headless/api.graphql
+schema: https://mimir.nine-chronicles.dev/odin/graphql
+documents: ./src/graphql./src/graphqlaphql
 generates:
-  ./graphql-headless/generated/graphql.tsx:
+  ./src/graphql-mim./src/graphqlgraphql.tsx:
     plugins:
       - typescript
       - typescript-operations
@@ -15,6 +15,6 @@ generates:
       scalars:
         Long: number
         TxId: string
-  ./graphql-headless/generated/schema.json:
+  ./src/graphql-mimir./src/graphqlhema.json:
     plugins:
       - introspection
