@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "graphql-codegen --config ./graphql-headless/codegen.yaml && graphql-codegen --config ./graphql-mimir/codegen.yaml && tsc && vite build",
+    "build": "graphql-codegen --config ./src/graphql-headless/codegen.yaml && graphql-codegen --config ./src/graphql-mimir/codegen.yaml && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "fmt": "pnpm dlx @biomejs/biome format --write ./src",
     "preview": "vite preview",
-    "codegen": "graphql-codegen --config ./graphql-headless/codegen.yaml && graphql-codegen --config ./graphql-mimir/codegen.yaml"
+    "codegen": "graphql-codegen --config ./src/graphql-headless/codegen.yaml && graphql-codegen --config ./src/graphql-mimir/codegen.yaml"
   },
   "dependencies": {
     "@apollo/client": "^3.9.11",
@@ -17,16 +17,16 @@
     "@planetarium/bencodex": "^0.2.2",
     "@planetarium/chrono-sdk": "npm:@jsr/planetarium__chrono-sdk@^0.3.0-dev.202407300404008623+ba3a1b2ea062d78a2730af4baf2a4e7a77585358",
     "@planetarium/lib9c": "npm:@jsr/planetarium__lib9c@^0.3.0-dev.202407170506408289+2af04aea533872ccba4f01c583b2e53694d2e18e",
-    "@tanstack/react-query": "^5.37.1",
+    "@tanstack/react-query": "^5.61.3",
     "buffer": "^6.0.3",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "graphql-tag": "^2.12.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zustand": "5.0.0-rc.2",
     "react-router-dom": "^6.27.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.7.3",

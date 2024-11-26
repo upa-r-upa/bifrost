@@ -24,8 +24,8 @@ importers:
         specifier: npm:@jsr/planetarium__lib9c@^0.3.0-dev.202407170506408289+2af04aea533872ccba4f01c583b2e53694d2e18e
         version: '@jsr/planetarium__lib9c@0.3.0-dev.202407310325437894+d5dbcbc8a3b7d710f9a25584d9a71ff381962b2d'
       '@tanstack/react-query':
-        specifier: ^5.37.1
-        version: 5.51.16(react@18.3.1)
+        specifier: ^5.61.3
+        version: 5.61.3(react@18.3.1)
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -1095,13 +1095,13 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tanstack/query-core@5.51.16':
-    resolution: {integrity: sha512-zfV+WAtBGm1dUIbL0w/x8qTqVLKU1/Bo1p19J9LF02MmIc4FxzMImMXhFzYJQl5Hx8Wit6RiQ4tB/DvN8y9zaQ==}
+  '@tanstack/query-core@5.60.6':
+    resolution: {integrity: sha512-tI+k0KyCo1EBJ54vxK1kY24LWj673ujTydCZmzEZKAew4NqZzTaVQJEuaG1qKj2M03kUHN46rchLRd+TxVq/zQ==}
 
-  '@tanstack/react-query@5.51.16':
-    resolution: {integrity: sha512-NZnpJ30zkwaA2ZPhxJLs/qoMbd0yNAj6yyb3JTADJx9HjSdtvnNzOY1bDa3bU1B9CZTBBb7W9E1PpWlNXdgESg==}
+  '@tanstack/react-query@5.61.3':
+    resolution: {integrity: sha512-c3Oz9KaCBapGkRewu7AJLhxE9BVqpMcHsd3KtFxSd7FSCu2qGwqfIN37zbSGoyk6Ix9LGZBNHQDPI6GpWABnmA==}
     peerDependencies:
-      react: ^18.0.0
+      react: ^18 || ^19
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -3971,7 +3971,7 @@ snapshots:
       '@planetarium/account': 4.4.2
       '@planetarium/bencodex': 0.2.2
       '@planetarium/tx': 4.6.1(@planetarium/account@4.4.2)
-      '@tanstack/react-query': 5.51.16(react@18.3.1)
+      '@tanstack/react-query': 5.61.3(react@18.3.1)
       buffer: 6.0.3
     transitivePeerDependencies:
       - react
@@ -4088,11 +4088,11 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.19.1':
     optional: true
 
-  '@tanstack/query-core@5.51.16': {}
+  '@tanstack/query-core@5.60.6': {}
 
-  '@tanstack/react-query@5.51.16(react@18.3.1)':
+  '@tanstack/react-query@5.61.3(react@18.3.1)':
     dependencies:
-      '@tanstack/query-core': 5.51.16
+      '@tanstack/query-core': 5.60.6
       react: 18.3.1
 
   '@types/babel__core@7.20.5':
