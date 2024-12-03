@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import { useNetworkStore } from "@/store/chrono";
+import { useAuthStore } from "@/store/auth";
 import { heimdallMimirUrl, odinMimirUrl, Planet } from "@/constants/planet";
 import { useMemo } from "react";
 
 import pixelArt from "@/assets/pixel-art.png";
 
 function App() {
-  const { planet } = useNetworkStore();
+  const { planet } = useAuthStore();
 
   const client = useMemo(() => {
     let endpoint;

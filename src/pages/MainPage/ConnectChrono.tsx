@@ -1,11 +1,5 @@
 import { getChronoSdk } from "@planetarium/chrono-sdk";
-import {
-  ChronoStatus,
-  useStatusStore,
-  useAccountStore,
-  useNetworkStore,
-  WrappedNetwork,
-} from "@/store/chrono";
+import { ChronoStatus, useStatusStore, useAuthStore } from "@/store/auth";
 import {
   useAccounts,
   useConnect,
@@ -20,13 +14,13 @@ import TerminalContainer from "@/components/TerminalContainer";
 
 function ConnectChrono() {
   const { status: chronoStatus, updateStatus } = useStatusStore();
-  const { updateNetwork, updatePlanet } = useNetworkStore();
   const {
     accounts: chronoAccounts,
     currentAccount,
     updateAccounts,
     updateCurrentAccount,
-  } = useAccountStore();
+    updatePlanet,
+  } = useAuthStore();
 
   const { connectAsync, isPending } = useConnect();
   const {
@@ -44,60 +38,73 @@ function ConnectChrono() {
 
   useEffect(() => {
     if (!chronoWallet) {
-      updateStatus(ChronoStatus.NOT_INSTALLED);
-      return;
+      return updateStatus(ChronoStatus.NOT_INSTALLED);
     }
 
     if (accountsLoading || networksLoading) {
-      updateStatus(ChronoStatus.LOADING);
-      return;
+      return updateStatus(ChronoStatus.LOADING);
     }
 
     if (!accountsSuccess || !networksSuccess) {
       updateStatus(ChronoStatus.NOT_CONNECTED);
       updateAccounts([]);
+
       return;
     }
 
-    const { accounts, isConnected: accountIsConnected } = accountsData;
-    if (accountIsConnected) {
+    if (accountsData.isConnected) {
       updateStatus(ChronoStatus.CONNECTED);
-      updateAccounts(accounts);
-      updateCurrentAccount(accounts[0]);
     } else {
       updateStatus(ChronoStatus.NOT_CONNECTED);
     }
-
-    const { network, isConnected: networkIsConnected } = networksData;
-    if (networkIsConnected && network) {
-      updateNetwork(network as WrappedNetwork);
-
-      const genesisHash = Buffer.from(network.genesisHash).toString("hex");
-      switch (genesisHash) {
-        case Buffer.from(ODIN_GENESIS_HASH).toString("hex"):
-          updatePlanet(Planet.ODIN);
-          break;
-        case Buffer.from(HEIMDALL_GENESIS_HASH).toString("hex"):
-          updatePlanet(Planet.HEIMDALL);
-          break;
-        default:
-          updatePlanet(Planet.NOT_SUPPORTED);
-      }
-    }
   }, [
     chronoWallet,
-    accountsLoading,
-    networksLoading,
-    accountsSuccess,
     accountsData,
+    accountsLoading,
+    accountsSuccess,
+    networksLoading,
     networksSuccess,
-    networksData,
-    updateStatus,
     updateAccounts,
     updateCurrentAccount,
-    updateNetwork,
-    updatePlanet,
+    updateStatus,
   ]);
+
+  useEffect(() => {
+    if (!accountsData?.isConnected) return;
+    if (currentAccount && chronoAccounts) return;
+
+    const addresses = accountsData.accounts.map((address) =>
+      address.toString()
+    );
+
+    updateAccounts(addresses);
+    updateCurrentAccount(addresses[0]);
+  }, [
+    accountsData,
+    chronoAccounts,
+    currentAccount,
+    updateAccounts,
+    updateCurrentAccount,
+  ]);
+
+  useEffect(() => {
+    if (!networksData?.isConnected || !networksData.network) return;
+
+    const genesisHash = Buffer.from(networksData.network.genesisHash).toString(
+      "hex"
+    );
+
+    switch (genesisHash) {
+      case Buffer.from(ODIN_GENESIS_HASH).toString("hex"):
+        updatePlanet(Planet.ODIN);
+        break;
+      case Buffer.from(HEIMDALL_GENESIS_HASH).toString("hex"):
+        updatePlanet(Planet.HEIMDALL);
+        break;
+      default:
+        updatePlanet(Planet.NOT_SUPPORTED);
+    }
+  }, [networksData, updatePlanet]);
 
   const renderContent = () => {
     switch (chronoStatus) {
@@ -139,14 +146,14 @@ function ConnectChrono() {
         return (
           <select
             className="bg-white text-black"
-            value={currentAccount ? currentAccount.toString() : ""}
+            value={currentAccount || ""}
             onChange={(e) => {
-              updateCurrentAccount(chronoAccounts[Number(e.target.value)]);
+              updateCurrentAccount(e.target.value);
             }}
           >
-            {chronoAccounts.map((address, index) => (
-              <option key={address.toString()} value={index}>
-                {address.toString()}
+            {chronoAccounts.map((address) => (
+              <option key={address} value={address}>
+                {address}
               </option>
             ))}
           </select>
