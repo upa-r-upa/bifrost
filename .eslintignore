@@ -1,0 +1,2 @@
+src/graphql-headless/generated/*
+src/graphql-mimir/generated/*
