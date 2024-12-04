@@ -1,4 +1,4 @@
 import ErrorPage from "./ErrorPage";
-import RequireAuth from "./RequireAuth";
+import MainPage from "./MainPage";
 
-export { ErrorPage, RequireAuth };
+export { ErrorPage, MainPage };

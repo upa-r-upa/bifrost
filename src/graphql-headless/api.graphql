@@ -1,0 +1,11 @@
+query getTip {
+  nodeStatus {
+    tip {
+      index
+    }
+  }
+}
+
+mutation StageTransaction($tx: String!) {
+  stageTransaction(payload: $tx)
+}

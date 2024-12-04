@@ -1,11 +1,5 @@
 import { getChronoSdk } from "@planetarium/chrono-sdk";
-import {
-  ChronoStatus,
-  useStatusStore,
-  useAccountStore,
-  useNetworkStore,
-  WrappedNetwork,
-} from "@/store/chrono";
+import { ChronoStatus, useStatusStore, useAuthStore } from "@/store/auth";
 import {
   useAccounts,
   useConnect,
@@ -17,15 +11,18 @@ import { Planet } from "@/constants/planet";
 import { HEIMDALL_GENESIS_HASH, ODIN_GENESIS_HASH } from "@planetarium/lib9c";
 import { Buffer } from "buffer";
 
+import RadioGroup from "@/components/RadioGroup";
+import RadioButton from "@/components/RadioButton";
+
 function ConnectChrono() {
   const { status: chronoStatus, updateStatus } = useStatusStore();
-  const { updateNetwork, updatePlanet } = useNetworkStore();
   const {
     accounts: chronoAccounts,
     currentAccount,
     updateAccounts,
     updateCurrentAccount,
-  } = useAccountStore();
+    updatePlanet,
+  } = useAuthStore();
 
   const { connectAsync, isPending } = useConnect();
   const {
@@ -43,87 +40,103 @@ function ConnectChrono() {
 
   useEffect(() => {
     if (!chronoWallet) {
-      updateStatus(ChronoStatus.NOT_INSTALLED);
-      return;
+      return updateStatus(ChronoStatus.NOT_INSTALLED);
     }
 
     if (accountsLoading || networksLoading) {
-      updateStatus(ChronoStatus.LOADING);
-      return;
+      return updateStatus(ChronoStatus.LOADING);
     }
 
     if (!accountsSuccess || !networksSuccess) {
       updateStatus(ChronoStatus.NOT_CONNECTED);
       updateAccounts([]);
+
       return;
     }
 
-    const { accounts, isConnected: accountIsConnected } = accountsData;
-    if (accountIsConnected) {
+    if (accountsData.isConnected) {
       updateStatus(ChronoStatus.CONNECTED);
-      updateAccounts(accounts);
-      updateCurrentAccount(accounts[0]);
     } else {
       updateStatus(ChronoStatus.NOT_CONNECTED);
     }
-
-    const { network, isConnected: networkIsConnected } = networksData;
-    if (networkIsConnected && network) {
-      updateNetwork(network as WrappedNetwork);
-
-      const genesisHash = Buffer.from(network.genesisHash).toString("hex");
-      switch (genesisHash) {
-        case Buffer.from(ODIN_GENESIS_HASH).toString("hex"):
-          updatePlanet(Planet.ODIN);
-          break;
-        case Buffer.from(HEIMDALL_GENESIS_HASH).toString("hex"):
-          updatePlanet(Planet.HEIMDALL);
-          break;
-        default:
-          updatePlanet(Planet.NOT_SUPPORTED);
-      }
-    }
   }, [
     chronoWallet,
-    accountsLoading,
-    networksLoading,
-    accountsSuccess,
     accountsData,
+    accountsLoading,
+    accountsSuccess,
+    networksLoading,
     networksSuccess,
-    networksData,
-    updateStatus,
     updateAccounts,
     updateCurrentAccount,
-    updateNetwork,
-    updatePlanet,
+    updateStatus,
   ]);
+
+  useEffect(() => {
+    if (!accountsData?.isConnected) return;
+    if (currentAccount && chronoAccounts) return;
+
+    const addresses = accountsData.accounts.map((address) =>
+      address.toString()
+    );
+
+    updateAccounts(addresses);
+    updateCurrentAccount(addresses[0]);
+  }, [
+    accountsData,
+    chronoAccounts,
+    currentAccount,
+    updateAccounts,
+    updateCurrentAccount,
+  ]);
+
+  useEffect(() => {
+    if (!networksData?.isConnected || !networksData.network) return;
+
+    const genesisHash = Buffer.from(networksData.network.genesisHash).toString(
+      "hex"
+    );
+
+    switch (genesisHash) {
+      case Buffer.from(ODIN_GENESIS_HASH).toString("hex"):
+        updatePlanet(Planet.ODIN);
+        break;
+      case Buffer.from(HEIMDALL_GENESIS_HASH).toString("hex"):
+        updatePlanet(Planet.HEIMDALL);
+        break;
+      default:
+        updatePlanet(Planet.NOT_SUPPORTED);
+    }
+  }, [networksData, updatePlanet]);
 
   const renderContent = () => {
     switch (chronoStatus) {
       case ChronoStatus.NOT_INSTALLED:
         return (
           <a
+            className="underline"
             href={ChronoDownloadLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white"
           >
-            Install Chrono
+            &gt;&gt;&gt; Install Chrono
           </a>
         );
 
       case ChronoStatus.LOADING:
         return (
-          <button className="text-white" disabled>
-            Loading... (If you are installing Chrono for the first time, please
-            create an account.)
-          </button>
+          <>
+            <p>Loading...</p>
+            <p>
+              * If you are installing Chrono for the first time, please create
+              an account.
+            </p>
+          </>
         );
 
       case ChronoStatus.NOT_CONNECTED:
         return (
           <button
-            className="bg-white p-4 font-bold"
+            className="p-4 font-bold"
             onClick={() => connectAsync()}
             disabled={isPending}
           >
@@ -133,18 +146,19 @@ function ConnectChrono() {
 
       case ChronoStatus.CONNECTED:
         return (
-          <select
-            value={currentAccount ? currentAccount.toString() : ""}
-            onChange={(e) => {
-              updateCurrentAccount(chronoAccounts[Number(e.target.value)]);
-            }}
-          >
-            {chronoAccounts.map((address, index) => (
-              <option key={address.toString()} value={index}>
-                {address.toString()}
-              </option>
+          <RadioGroup title="Select agent address">
+            {chronoAccounts.map((address) => (
+              <RadioButton
+                label={address}
+                onChange={() => {
+                  updateCurrentAccount(address);
+                }}
+                key={address}
+                value={address}
+                checked={currentAccount === address}
+              />
             ))}
-          </select>
+          </RadioGroup>
         );
 
       default:
@@ -152,7 +166,12 @@ function ConnectChrono() {
     }
   };
 
-  return <div>{renderContent()}</div>;
+  return (
+    <>
+      {networksData && <p>Current Planet is {networksData.network?.name}</p>}
+      {renderContent()}
+    </>
+  );
 }
 
 export default ConnectChrono;
