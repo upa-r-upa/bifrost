@@ -35,11 +35,13 @@ export const useStatusStore = create<StatusState>()(
 
 // Type for the Account Store
 interface AuthState {
-  accounts: string[]; // localStorage에 저장
-  currentAccount: string | null; // localStorage에 저장
+  accounts: string[];
+  currentAccount: string | null;
+  avatarAddress: string | null;
   planet: Planet | null;
 
   updateAccounts: (newAccounts: string[]) => void;
+  updateAvatarAddress: (newAvatarAddress: string | null) => void;
   updateCurrentAccount: (newAccount: string) => void;
   updatePlanet: (planetInfo: Planet) => void;
 }
@@ -52,18 +54,14 @@ export const useAuthStore = create<AuthState>()(
         accounts: [],
         planet: null,
         currentAccount: null,
+        avatarAddress: null,
 
-        updateAccounts: (newAccounts) => {
-          console.log(newAccounts);
-          set({ accounts: newAccounts });
-        },
-        updateCurrentAccount: (newAccount) => {
-          console.log(newAccount);
-          set({ currentAccount: newAccount });
-        },
-        updatePlanet: (planetInfo: Planet) => {
-          set({ planet: planetInfo });
-        },
+        updateAccounts: (newAccounts) => set({ accounts: newAccounts }),
+        updateAvatarAddress: (newAvatarAddress) =>
+          set({ avatarAddress: newAvatarAddress }),
+        updateCurrentAccount: (newAccount) =>
+          set({ currentAccount: newAccount }),
+        updatePlanet: (planetInfo: Planet) => set({ planet: planetInfo }),
       }),
       {
         name: AuthStoreStorageKey,

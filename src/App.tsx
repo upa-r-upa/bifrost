@@ -39,7 +39,7 @@ function App() {
       <div className="relative w-full bg-background h-screen pt-5">
         <div className="flex justify-center">
           <div className="w-full max-w-screen-md">
-            <div className="aspect-video border-2 border-selection-background rounded-md shadow-lg overflow-hidden">
+            <div className="aspect-video border-2 border-selection-background rounded-md shadow-lg">
               {/* 터미널 헤더 */}
               <div className="flex items-center p-2 bg-selection-background text-foreground rounded-t-md">
                 <div className="flex space-x-2">

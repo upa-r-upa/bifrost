@@ -10,7 +10,9 @@ import { ChronoDownloadLink } from "@/constants/chrono";
 import { Planet } from "@/constants/planet";
 import { HEIMDALL_GENESIS_HASH, ODIN_GENESIS_HASH } from "@planetarium/lib9c";
 import { Buffer } from "buffer";
-import TerminalContainer from "@/components/TerminalContainer";
+
+import RadioGroup from "@/components/RadioGroup";
+import RadioButton from "@/components/RadioButton";
 
 function ConnectChrono() {
   const { status: chronoStatus, updateStatus } = useStatusStore();
@@ -144,19 +146,19 @@ function ConnectChrono() {
 
       case ChronoStatus.CONNECTED:
         return (
-          <select
-            className="bg-white text-black"
-            value={currentAccount || ""}
-            onChange={(e) => {
-              updateCurrentAccount(e.target.value);
-            }}
-          >
+          <RadioGroup title="Select agent address">
             {chronoAccounts.map((address) => (
-              <option key={address} value={address}>
-                {address}
-              </option>
+              <RadioButton
+                label={address}
+                onChange={() => {
+                  updateCurrentAccount(address);
+                }}
+                key={address}
+                value={address}
+                checked={currentAccount === address}
+              />
             ))}
-          </select>
+          </RadioGroup>
         );
 
       default:
@@ -165,9 +167,10 @@ function ConnectChrono() {
   };
 
   return (
-    <TerminalContainer title="Connect Chrono">
+    <>
+      {networksData && <p>Current Planet is {networksData.network?.name}</p>}
       {renderContent()}
-    </TerminalContainer>
+    </>
   );
 }
 
