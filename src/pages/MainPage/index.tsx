@@ -1,21 +1,16 @@
-import TerminalContainer from "@/components/TerminalContainer";
+import { NavLink } from "react-router-dom";
 
-import ConnectChrono from "./ConnectChrono";
 import Lobby from "./Lobby";
-import SelectAvatar from "./SelectAvatar";
+import ROUTES from "@/constants/routes";
 
 export default function MainPage() {
   return (
     <>
-      <TerminalContainer
-        title="Connect Chrono"
-        type="highlight"
-        className="flex flex-col gap-2"
-      >
-        <ConnectChrono />
-        <SelectAvatar />
-      </TerminalContainer>
       <Lobby />
+
+      <button className="mt-3 btn">
+        <NavLink to={ROUTES.ACCOUNT}>Account settings</NavLink>
+      </button>
     </>
   );
 }

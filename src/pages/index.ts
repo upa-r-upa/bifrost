@@ -1,4 +1,5 @@
 import ErrorPage from "./ErrorPage";
 import MainPage from "./MainPage";
+import AccountPage from "./AccountPage";
 
-export { ErrorPage, MainPage };
+export { ErrorPage, MainPage, AccountPage };
