@@ -33,7 +33,7 @@ export default function RadioButton({
           checked ? "border-bright-white" : ""
         }`}
       >
-        <span>{label}</span>
+        <p>{label}</p>
         {children}
       </div>
     </label>
