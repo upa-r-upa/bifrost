@@ -1,5 +1,6 @@
 enum ROUTES {
   MAIN = "/",
+  ADVENTURE = "/adventure",
   AUTH = "/auth",
   ACCOUNT = "/account",
   MARKET = "/market",
