@@ -8,9 +8,9 @@ export default function MainPage() {
     <>
       <Lobby />
 
-      <button className="mt-3 btn">
-        <NavLink to={ROUTES.ACCOUNT}>Account settings</NavLink>
-      </button>
+      <NavLink to={ROUTES.ACCOUNT} className="w-max">
+        <button className="mt-3 btn">Account settings</button>
+      </NavLink>
     </>
   );
 }
