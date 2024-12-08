@@ -9,12 +9,13 @@ import Root from "./App";
 import RequireAuth from "@/components/RequireAuth";
 import ROUTES from "@/constants/routes";
 
-import { ErrorPage, MainPage } from "@/pages";
+import { AccountPage, ErrorPage, MainPage } from "@/pages";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={"/"} element={<Root />} errorElement={<ErrorPage />}>
       <Route index path={ROUTES.MAIN} element={<MainPage />} />
+      <Route path={ROUTES.ACCOUNT} element={<AccountPage />} />
 
       <Route path={ROUTES.AUTH} element={<RequireAuth />}>
         {/* Require auth pages */}

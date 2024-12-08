@@ -49,3 +49,7 @@
   font-weight: 700;
   font-style: italic;
 }
+
+.btn {
+  @apply border-4 w-max border-bright-white py-0.5 px-3 border-double;
+}
