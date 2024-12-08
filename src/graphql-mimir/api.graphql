@@ -7,6 +7,24 @@ query GetAvatarAddresses($address: Address!) {
   }
 }
 
+query GetWorldInformation($avatarAddress: Address!) {
+  worldInformation(address: $avatarAddress) {
+    worldDictionary {
+      key
+      value {
+        isStageCleared
+        isUnlocked
+        name
+        stageBegin
+        stageClearedBlockIndex
+        stageClearedId
+        stageEnd
+        unlockedBlockIndex
+      }
+    }
+  }
+}
+
 fragment AvatarFields on AvatarState {
   address
   name
