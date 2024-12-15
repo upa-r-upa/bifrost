@@ -1,5 +1,6 @@
 import TerminalContainer from "@/components/TerminalContainer";
 import ROUTES from "@/constants/routes";
+import { useAuthStore } from "@/store/auth";
 import { formatAddress } from "@/utils/format";
 import { NavLink } from "react-router-dom";
 
@@ -43,29 +44,26 @@ const MenuList: Array<Navigation> = [
 ];
 
 export default function Lobby() {
+  const { avatarAddress, avatarInfo } = useAuthStore();
+
   return (
     <>
-      <TerminalContainer title="Avatar info" type="sub" className="">
-        <div className="flex items-center gap-3">
-          <p>Name</p>
-          <p>Uparupa</p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <p>Address</p>
-          <p>{formatAddress("0x2F2468F90B9CC5E4992Edfb87d9B8A018959c352")}</p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <p>Level</p>
-          <p>59</p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <p>Exp</p>
-          <p>374/600</p>
-        </div>
-      </TerminalContainer>
+      {avatarInfo && avatarAddress && (
+        <TerminalContainer title="Avatar info" type="sub" className="">
+          <div className="flex items-center gap-3">
+            <p>Name</p>
+            <p>{avatarInfo.name}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <p>Address</p>
+            <p>{formatAddress(avatarAddress)}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <p>Level</p>
+            <p>{avatarInfo.level}</p>
+          </div>
+        </TerminalContainer>
+      )}
 
       <TerminalContainer
         title="Menu"
