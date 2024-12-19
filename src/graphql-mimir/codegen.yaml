@@ -7,7 +7,7 @@ generates:
       - typescript
       - typescript-operations
       - typescript-resolvers
-      - typescript-react-apollo1
+      - typescript-react-apollo
     config:
       reactApolloVersion: 3
       withComponent: false

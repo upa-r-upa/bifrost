@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStageTransactionMutation } from "../../graphql-headless/generated/graphql";
+import { useStageTransactionMutation } from "@/graphql-headless/generated/graphql";
 import { getChronoSdk } from "@planetarium/chrono-sdk";
 import { Address } from "@planetarium/account";
 import { PolymorphicAction } from "@planetarium/lib9c";
