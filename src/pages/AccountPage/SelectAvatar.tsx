@@ -2,20 +2,27 @@ import ErrorAlert from "@/components/ErrorAlert";
 import RadioButton from "@/components/RadioButton";
 import RadioGroup from "@/components/RadioGroup";
 import {
-  GetAvatarsInformationQuery,
   useGetAvatarAddressesQuery,
   useGetAvatarsInformationQuery,
 } from "@/graphql-mimir/generated/graphql";
 
-import { ChronoStatus, useAuthStore, useStatusStore } from "@/store/auth";
+import {
+  AvatarInfo,
+  ChronoStatus,
+  useAuthStore,
+  useStatusStore,
+} from "@/store/auth";
 import { formatAddress } from "@/utils/format";
 import { useMemo } from "react";
 
-type Avatar = GetAvatarsInformationQuery["avatar1"];
-
 export default function SelectAvatar() {
   const { status } = useStatusStore();
-  const { currentAccount, avatarAddress, updateAvatarAddress } = useAuthStore();
+  const {
+    currentAccount,
+    avatarAddress,
+    updateAvatarAddress,
+    updateAvatarAddressWithInfo,
+  } = useAuthStore();
 
   const {
     loading,
@@ -56,13 +63,20 @@ export default function SelectAvatar() {
         avatarAddressList[2] || avatarAddressList[avatarAddressList.length - 1],
     },
     skip: avatarAddressList.length === 0,
+    onCompleted: (data) => {
+      if (avatarAddress) return;
+
+      if (data.avatar1) {
+        updateAvatarAddressWithInfo(data.avatar1.address, data.avatar1);
+      }
+    },
   });
 
   if (status !== ChronoStatus.CONNECTED) {
     return <></>;
   }
 
-  const getUniqueAvatarList = (...avatars: Array<Avatar>) => {
+  const getUniqueAvatarList = (...avatars: Array<AvatarInfo>) => {
     const seen = new Set<string>();
 
     return avatars.filter((avatar) => {
@@ -73,7 +87,7 @@ export default function SelectAvatar() {
     });
   };
 
-  const renderAvatarList = (avatarList: Array<Avatar>) => {
+  const renderAvatarList = (avatarList: Array<AvatarInfo>) => {
     if (!avatarList) {
       return (
         <div>
@@ -84,20 +98,24 @@ export default function SelectAvatar() {
 
     return (
       <RadioGroup title="Select game avatar" className="flex-row">
-        {avatarList.map((avatar) => (
-          <RadioButton
-            key={avatar.address}
-            label={`${avatar.name}`}
-            checked={avatarAddress === avatar.address}
-            value={avatar.address}
-            onChange={() => updateAvatarAddress(avatar.address)}
-          >
-            <span>&#91;Level&#93;</span> {avatar.level}
-            <p>
-              <span>&#91;Address&#93;</span> {formatAddress(avatar.address)}
-            </p>
-          </RadioButton>
-        ))}
+        {avatarList.map((avatar) => {
+          const { address, name } = avatar;
+
+          return (
+            <RadioButton
+              key={address}
+              label={`${name}`}
+              checked={avatarAddress === address}
+              value={address}
+              onChange={() => updateAvatarAddressWithInfo(address, avatar)}
+            >
+              <span>&#91;Level&#93;</span> {avatar.level}
+              <p>
+                <span>&#91;Address&#93;</span> {formatAddress(avatar.address)}
+              </p>
+            </RadioButton>
+          );
+        })}
       </RadioGroup>
     );
   };
